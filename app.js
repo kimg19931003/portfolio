@@ -50,7 +50,8 @@ app.use(express.static('css'));
 app.use(express.static('img'));
 
 
-var chat_num = 1;
+var chat_num = 0;
+
 
 io.on('connection', (socket) => {
 
@@ -98,7 +99,7 @@ io.on('connection', (socket) => {
 					console.log(err);
 				}
 				else {
-					socket.emit('leaveRoom', to, id, chat_num);
+					io.to(to).emit('leaveRoom', to, id, chat_num);
 				}
 
 
@@ -118,7 +119,7 @@ io.on('connection', (socket) => {
 
 	socket.on('joinRoom', (to, id) => {
 		socket.join(to, () => {
-
+			
 			while (chat_flag) {
 				chat_flag = chat(id).flag;
 				id = chat(id).id;
@@ -136,7 +137,8 @@ io.on('connection', (socket) => {
 					console.log(err);
 				}
 				else {
-					socket.emit('joinRoom', to, id, chat_num);
+					io.to(to).emit('joinRoom', to, id, chat_num);
+				
 				}
 
 
@@ -172,9 +174,11 @@ io.on('connection', (socket) => {
 
 			if (err) {
 				console.log(err);
+				
 			}
 			else {
-				socket.emit('chat message', to, id, msg, msgtime, machine);
+				io.to(to).emit('chat message', to, id, msg, msgtime, machine);
+			
 			}
 
 
