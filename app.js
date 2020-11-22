@@ -13,6 +13,32 @@ var db = mysql.createConnection({
 
 
 
+
+function handleDisconnect() {
+   // Recreate the connection, since
+                                                  // the old one cannot be reused.
+
+  db.connect(function(err) {              // The server is either down
+    if(err) {                                     // or restarting (takes a while sometimes).
+      console.log('error when connecting to db:', err);
+      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+    }                                     // to avoid a hot loop, and to allow our node script to
+  });                                     // process asynchronous requests in the meantime.
+                                          // If you're also serving http, display a 503 error.
+  db.on('error', function(err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      handleDisconnect();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
+}
+
+handleDisconnect();
+
+
+
 const express = require('express');
 const app = express();
 var moment = require("moment");
@@ -72,6 +98,8 @@ io.on('connection', (socket) => {
 				console.log(err);
 			}
 			else {
+				console.log("disconnect_update :"+chat_num);
+				io.to("admin").emit('chat_num_update', chat_num);
 				
 			}
 
@@ -151,6 +179,30 @@ io.on('connection', (socket) => {
 	/////////////////// 채팅방에 입장할때 //////////////////////
 
 
+	////////////////// 주기적 채팅방 인원 업데이트 ///////////////
+
+	socket.on('chat_num_update', (to, chat_num) => {
+		
+
+			db.query('select * from chat_num', function (err, rows, fields) {
+
+				if(err){
+
+				}else{
+
+					var chat_num = rows[0].chat_num;
+					io.to(to).emit('chat_num_update', chat_num);
+
+				}
+
+
+
+			});
+
+	});
+
+
+	////////////////// 주기적 채팅방 인원 업데이트 ///////////////
 
 
 	//////////////////// 메세지 입력할때 //////////////////////////
@@ -258,7 +310,7 @@ app.get('/', function (req, res) {
 
 
 
-app.get('/portfolio', function (req, res) {
+app.get('/portfolio', function (req, res) {        ////// 포트폴리오 사이트 get 
 
 
 	res.render('portfolio', {
@@ -271,7 +323,7 @@ app.get('/portfolio', function (req, res) {
 });
 
 
-app.post('/portfolio', function (req, res) {
+app.post('/portfolio', function (req, res) {        ////// 포트폴리오 사이트 post
 
 
 	let body = req.body;
@@ -307,6 +359,8 @@ app.post('/portfolio', function (req, res) {
 //////////////////// 함수 기능 모음 ////////////////////////
 
 
+
+//////////////  chat id 가 겹치는지를 확인 
 function chat(id) {
 
 
@@ -331,7 +385,7 @@ function chat(id) {
 
 
 
-	db.query('select * from chat where id = ?', [id], function (err, rows, fields) {
+	db.query('select * from chat where id = ?', [id], function (err, rows, fields) {   //////// db 에 저장된 랜덤 id 대조
 
 		if (err) {
 			console.log(err);

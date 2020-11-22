@@ -31,7 +31,7 @@
 
 
       socket.emit('joinRoom', to, id);
-
+      socket.emit('chat_num_update', function(to, chat_num){});
      
 
       document.querySelector(".chat_space").scrollTop = document.querySelector(".chat_space").scrollHeight;
@@ -133,13 +133,25 @@
 
         this.chat_num = chat_num;
 
-      
          $(".chat_num").text(this.chat_num);
 
       });
 
 
-      chat_num_ajax();
+      
+
+
+  
+
+
+
+     socket.on('chat_num_update', function(chat_num){
+
+      this.chat_num = chat_num;
+       $(".chat_num").text(this.chat_num);
+
+     });
+      
      
 
     }); 
@@ -150,7 +162,10 @@
 
     function chat_num_ajax(){
 
-      setTimeout(function () {
+     
+
+
+        /*
         $.ajax({
 
           type : "post",
@@ -169,7 +184,10 @@
           }
 
         });
-      }, 5000);
+        */
+
+
+      
 
 
 

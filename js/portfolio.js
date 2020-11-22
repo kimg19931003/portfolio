@@ -3,7 +3,7 @@
 
 $(function () {
 
-    $(".chat").draggable();
+    $(".chat, .user_form, .user_career, .user_certifi").draggable();
 
 
     if (document.body.scrollTop == 0) {
@@ -45,6 +45,30 @@ $(function () {
         setTimeout(function () {
             $(".user_career_reason").css("top", "3px").css("opacity", "1");
         }, 1500);
+
+
+
+
+
+
+
+        ////////////////////////// 3번 유저폼 //////////////////////////////
+
+         setTimeout(function () {
+
+            $(".user_certifi").css("margin", "100px auto 100px auto").css("opacity", "1");
+
+        }, 1800);
+
+
+
+        setTimeout(function () {
+            $(".user_certifi_info").css("top", "0px").css("opacity", "1");
+        }, 2100);
+
+        setTimeout(function () {
+            $(".user_certifi_reason").css("top", "3px").css("opacity", "1");
+        }, 2400);
 
     } else if (document.body.scrollTop > 10) {
 

@@ -54,6 +54,7 @@ html{
     -o-transition: all linear 0.4s;
     -moz-transition: all linear 0.4s;
     opacity:0;
+    cursor:pointer;
 }
 
 
@@ -132,7 +133,7 @@ html{
 .user_career {
     position: relative;
     width: 700px;
-    height: 400px;
+    height: 500px;
     margin: 130px auto 100px auto;
     border-radius: 10px;
     background: linear-gradient(165deg, rgba(158, 174, 169, 0.5), rgba(173, 157, 132, 0.3));
@@ -140,6 +141,7 @@ html{
     -o-transition: all linear 0.4s;
     -moz-transition: all linear 0.4s;
     opacity:0;
+    cursor:pointer;
 }
 
 
@@ -208,7 +210,74 @@ html{
 
 
 .user_career_reason_div{
+    margin-top : 30px;
+}
 
+
+
+
+/***************** 3번 폼 ***************************/
+
+
+
+
+.user_certifi {
+    position: relative;
+    width: 700px;
+    height: 400px;
+    margin: 130px auto 100px auto;
+    border-radius: 10px;
+    background: linear-gradient(165deg, rgba(158, 174, 169, 0.5), rgba(173, 157, 132, 0.3));
+    transition: all linear 0.4s;
+    -o-transition: all linear 0.4s;
+    -moz-transition: all linear 0.4s;
+    opacity:0;
+    cursor:pointer;
+}
+
+
+.user_certifi:hover{
+    background: linear-gradient(165deg, rgba(121, 179, 161, 0.5), rgba(180, 150, 100, 0.3));
+}
+
+.user_certifi_info{
+    position: relative;
+    left: 16px;
+    top: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 667px;
+    transition: all linear 0.4s;
+    -o-transition: all linear 0.4s;
+    -moz-transition: all linear 0.4s;
+    opacity:0;
+}
+
+
+.user_certifi_reason {
+    position: relative;
+    top:60px;
+  
+    font-size: 17px;
+    width: 100%;
+    height: 150px;
+    transition: all linear 0.4s;
+    -o-transition: all linear 0.4s;
+    -moz-transition: all linear 0.4s;
+   
+    font-size:15px;
+    opacity:0;
+}
+
+.user_certifi_info th{
+    border-bottom:1px solid #d0d0d0;
+}
+
+
+.user_certifi_info th, .user_certifi_info td{
+    text-align:center;
+    padding: 23px 5px;
+ 
 }
 
 
@@ -364,4 +433,11 @@ html{
 
 .chat_num_div{
     padding: 7px 9px;
+}
+
+
+.chat_under{
+    position:absolute;
+
+
 }
